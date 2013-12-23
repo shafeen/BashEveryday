@@ -1,6 +1,6 @@
 ScriptsEveryday
 ================
-Useful bash scripts you can use EVERYDAY!
+Useful scripts you can use EVERYDAY!
 
 timers
 ------
