@@ -1,5 +1,5 @@
-BashEveryday
-============
+ScriptsEveryday
+================
 Useful bash scripts you can use EVERYDAY!
 
 timers
