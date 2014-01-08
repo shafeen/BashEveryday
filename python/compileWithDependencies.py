@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+# Author : Shafeen M.
+
 import subprocess
 import os.path
 import sys
@@ -11,6 +13,7 @@ def compileCPP(compileFileList, executableName="a.out"):
 	compileStr += " -o " + executableName
 	print compileStr
 	subprocess.call(compileStr, shell=True)
+	return
 
 def findFilesToCompileFromList(cppSourceFiles):
 	compileFileList = []
@@ -34,12 +37,7 @@ def findFilesToCompileFromList(cppSourceFiles):
 # in the final g++ compile list
 # right now function works for simple header includes
 # with no recursive file dependencies
-def findAllIncludes():
-	if len(sys.argv) == 1:
-		print "error: Please specify a C++ source file"
-		return
-
-	sourceFile = sys.argv[1]
+def findAllIncludes(sourceFile):
 	infile = open(sourceFile)
 	lines = []
 	lines = infile.readlines()
@@ -47,42 +45,39 @@ def findAllIncludes():
 	cppSourceFiles = []
 	lineNum = 0
 	for line in lines:
-		lineNum+=1
+		lineNum += 1
 		line = line.strip()
 
-		if (line.find("#include") != -1):
-			line = line.replace("#include ", "")
+		if (line.find("#include") != -1 and line.find("<") == -1):
+			line = line.replace("#include ", "").replace('"', '').strip()
+			cppSourceFiles.append(line)
 			# print line
-			if line.find("<") == -1:
-				line = line.replace('"', '')
-				line = line.strip()
-				# print line
-				cppSourceFiles.append(line)
-			else:
-				# print "line", lineNum, "will be ignored"
-				continue
 		else:
 			# print  "line", lineNum, "will be ignored"
 			continue
-		# print 
-
-	infile.close();
+	infile.close()
 	# print cppSourceFiles
-
-	compileFileList = findFilesToCompileFromList(cppSourceFiles)
-	# append the name of the original source file
-	compileFileList.append(sourceFile)
-	print "we need to compile :", compileFileList
-
-	compileCPP(compileFileList, sourceFile.replace(".cpp", ""))
-
 	return cppSourceFiles
 
 
 
+def compileResolvingDependencies():
+	if len(sys.argv) == 1:
+		print "error: Please specify a C++ source file"
+		return
+	sourceFile = sys.argv[1]
+	
+	cppSourceFiles = findAllIncludes(sourceFile)
+	compileFileList = findFilesToCompileFromList(cppSourceFiles)
+	# append the name of the original source file
+	compileFileList.append(sourceFile)
+	# print "we need to compile :", compileFileList
+	compileCPP(compileFileList, sourceFile.replace(".cpp", ""))
+	return
+	
 
 
 
 
-findAllIncludes();
+compileResolvingDependencies();
 
