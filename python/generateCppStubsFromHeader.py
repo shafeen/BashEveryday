@@ -9,6 +9,8 @@
 # read through my code (pretty easy read),
 # understand it and be careful.
 #
+# Usage: ./generateCppStubsFromHeader.py <C++ header name>
+#
 # WORK IN PROGRESS
 # NOTE: 
 # 1. In a usable working state
@@ -64,7 +66,6 @@ def getFunctionNameAndArgTypes(lineWithFunction):
 
 
 
-
 def printFunctionStubsToFile(functionDetailsList, file):
 	for function in functionDetailsList:
 		file.write(function[0] + "(") # function name
@@ -83,6 +84,27 @@ def printFunctionStubsToFile(functionDetailsList, file):
 	return
 
 
+# this is a temporary function to get past the double 
+# copies of arguments in the functionDetailsList
+def printFunctionStubsToFileHack(functionDetailsList, file):
+	for function in functionDetailsList:
+		file.write(function[0] + "(") # function name
+		
+		functionArguments = function[1:-(len(function[1:])/2)] # <<
+		# print functionArguments
+		totalArgs = len(functionArguments)
+		currentArg = 0;
+		for arg in functionArguments:
+			currentArg += 1
+			file.write(arg)
+			if currentArg == totalArgs:
+				break
+			file.write(", ")
+		
+		file.write(")\n")
+		file.write("{}\n\n")
+	return
+
 
 
 def generateCppStubsFromHeader(headerFileName=sys.argv[1]):
@@ -99,7 +121,7 @@ def generateCppStubsFromHeader(headerFileName=sys.argv[1]):
 	for line in linesWithFunctions:
 		functionDetailsList.append(getFunctionNameAndArgTypes(line))
 
-	print functionDetailsList
+	# print functionDetailsList
 
 	# generate the stub cpp file
 	# only create stub if file doesn't exist already
@@ -108,7 +130,7 @@ def generateCppStubsFromHeader(headerFileName=sys.argv[1]):
 		print stubFileName, "file exists already, could not create!"
 		return False
 	stubFile = open(stubFileName, 'w')
-	printFunctionStubsToFile(functionDetailsList, stubFile)
+	printFunctionStubsToFileHack(functionDetailsList, stubFile)
 	stubFile.close()
 	return True	
 
@@ -116,35 +138,17 @@ def generateCppStubsFromHeader(headerFileName=sys.argv[1]):
 
 
 
-# test scripts start here
-
+# Script Driver
 if len(sys.argv) < 2:
 	sys.exit("Not Enough Arguments!")
 elif len(sys.argv) > 2:
 	sys.exit("Too Many Arguments!")
 
-
 headerFile = sys.argv[1]
 if headerFile.find(".h") == -1:
 	sys.exit("Input file not a C++ header file!")
 
-
-# open(headerFile)
-str = "someFunc(int, a, b)"
-argStr = "int, a, b"
-words = argStr.split(",")
-# print words
-# getFunctionNameAndArgTypes(str)
-
 generateCppStubsFromHeader()
-
-
-sys.exit("Done With Script")
-
-
-
-
-
 
 
 
