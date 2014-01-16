@@ -10,7 +10,10 @@
 # understand it and be careful.
 #
 # WORK IN PROGRESS
-# NOTE: In a usable working state
+# NOTE: 
+# 1. In a usable working state
+# 2. functionDetailsList (l:101) has 2 copies
+#    of function arguments (will fix later)
 
 
 import os.path
