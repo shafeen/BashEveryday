@@ -10,6 +10,8 @@
 # understand it and be careful.
 #
 # WORK IN PROGRESS
+# NOTE: In a usable working state
+
 
 import os.path
 import sys
@@ -60,9 +62,22 @@ def getFunctionNameAndArgTypes(lineWithFunction):
 
 
 
-# def printFunctionStubsToFile(functionDetailsList, file):
-# 	for function in functionDetailsList:
-# 		file.write()
+def printFunctionStubsToFile(functionDetailsList, file):
+	for function in functionDetailsList:
+		file.write(function[0] + "(") # function name
+		
+		totalArgs = len(function[1:])
+		currentArg = 0;
+		for arg in function[1:]:
+			currentArg += 1
+			file.write(arg)
+			if currentArg == totalArgs:
+				break
+			file.write(", ")
+		
+		file.write(")\n")
+		file.write("{}\n\n")
+	return
 
 
 
