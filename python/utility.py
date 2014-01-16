@@ -11,7 +11,7 @@ def shell_cmd(command):
 # query for the existence of a file
 # returns true if exists false otherwise
 # can be made to print output if needed
-def fileExists(filename, printOutput=False, recursive=False):
+def fileExists(filename, printOutput=False):
 	exists = os.path.isfile(filename)
 	if printOutput:
 		print "Checking for filename: \"%s\"" % (filename)
@@ -19,7 +19,6 @@ def fileExists(filename, printOutput=False, recursive=False):
 		print message
 	return exists
 
-fileExists("utility.py", True)
-fileExists("utility", True)
-fileExists(raw_input("Enter filename to check: "), True)
+
+fileExists(raw_input("Enter filename to check: "))
 	
