@@ -1,6 +1,6 @@
 ScriptsEveryday
 ================
-Useful scripts you can use EVERYDAY!
+Useful utility scripts!
 
 timers
 ------
