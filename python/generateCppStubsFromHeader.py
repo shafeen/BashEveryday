@@ -45,6 +45,9 @@ def stripLinesWithFunctionHeaders(cppHeaderFileLines):
 	funcHeaderLines = []
 	for line in cppHeaderFileLines:
 		if lineContainsFunctionHeader(line):
+			# ignore if function is disabled with "delete"
+			if line.split(")")[1].rstrip(';').find("delete") != -1:
+				continue
 			funcHeaderLines.append(line)
 
 	return funcHeaderLines
@@ -130,6 +133,10 @@ def generateCppStubsFromHeader(headerFileName=sys.argv[1]):
 		print stubFileName, "file exists already, could not create!"
 		return False
 	stubFile = open(stubFileName, 'w')
+	# print the "include" statement for the header
+	stubFile.write('#include "')
+	stubFile.write(headerFileName)
+	stubFile.write('"\n\n')
 	printFunctionStubsToFileHack(functionDetailsList, stubFile)
 	stubFile.close()
 	return True	
