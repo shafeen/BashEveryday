@@ -2,7 +2,6 @@
 # created for EECS 482 Operating Systems:
 # this is an input test case generator for disk tracks
 
-
 import sys
 import os
 import subprocess
