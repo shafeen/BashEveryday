@@ -1,6 +1,10 @@
-ScriptsEveryday
+SysAdmin
 ================
-Useful utility scripts!
+Useful utility scripts, shell code, config management, etc!
+
+
+Misc :
+------
 
 timers
 ------
