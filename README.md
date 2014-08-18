@@ -1,6 +1,6 @@
 SysAdmin
 ================
-Useful utility scripts, shell code, config management, etc!
+Useful utility scripts, shell and config management sample code, etc!
 
 
 Misc :
